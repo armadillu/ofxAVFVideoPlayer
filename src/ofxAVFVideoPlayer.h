@@ -63,13 +63,13 @@ public:
     int                 getTotalNumFrames();
     int                 getCurrentFrame();
     
-    void                setPaused(bool bPaused);
+    void                setPaused(bool _bPaused);
     void                setPosition(float pct);
 	void                setPositionInSeconds(float seconds);
     void                setVolume(float volume);
     void                setBalance(float balance);
     void                setLoopState(ofLoopType state);
-    void                setSpeed(float speed);
+    void                setSpeed(float _speed);
     void                setFrame(int frame); // frame 0 = first frame...
     
     // ofQTKitPlayer only supports OF_PIXELS_RGB and OF_PIXELS_RGBA.

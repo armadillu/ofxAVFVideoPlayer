@@ -203,7 +203,7 @@ float ofxAVFVideoPlayer::getPositionInSeconds() {
 }
 
 float ofxAVFVideoPlayer::getSpeed() {
-    return 0;
+    return speed;
 }
 
 ofLoopType ofxAVFVideoPlayer::getLoopState() {
@@ -226,8 +226,17 @@ int ofxAVFVideoPlayer::getCurrentFrame() {
     return 0;
 }
 
-void ofxAVFVideoPlayer::setPaused(bool bPaused) {
+void ofxAVFVideoPlayer::setPaused(bool _bPaused) {
+    if(!isLoaded()) return;
     
+    bPaused = _bPaused;
+    
+    
+	if (bPaused) {
+		[[moviePlayer player] setRate:0.0f];
+	} else {
+		[[moviePlayer player] setRate:speed];
+	}
 }
 
 void ofxAVFVideoPlayer::setPositionInSeconds(float position) {
@@ -256,8 +265,9 @@ void ofxAVFVideoPlayer::setLoopState(ofLoopType state) {
     
 }
 
-void ofxAVFVideoPlayer::setSpeed(float speed) {
-    
+void ofxAVFVideoPlayer::setSpeed(float _speed) {
+    speed = _speed;
+    [[moviePlayer player] setRate:speed];
 }
 
 void ofxAVFVideoPlayer::setFrame(int frame) {
@@ -291,7 +301,7 @@ float ofxAVFVideoPlayer::getHeight() {
 }
 
 bool ofxAVFVideoPlayer::isPaused() {
-    return [moviePlayer player].rate == 0;
+    return [moviePlayer player].rate;
 }
 
 bool ofxAVFVideoPlayer::isLoading() {
@@ -314,7 +324,6 @@ bool ofxAVFVideoPlayer::isAudioLoaded() {
 }
 
 bool ofxAVFVideoPlayer::isPlaying() {
-    
 }
 
 void ofxAVFVideoPlayer::firstFrame() {
