@@ -264,7 +264,7 @@ void ofxAVFVideoPlayer::setSpeed(float speed_) {
 
 	speed = speed_;
 	[moviePlayer player].rate = speed_;
-	//cout << [moviePlayer player].rate << endl;
+	cout << [moviePlayer player].rate << endl;
 }
 
 void ofxAVFVideoPlayer::setFrame(int frame) {

@@ -30,7 +30,7 @@ public:
     void                update();
     void                play();
     void                stop();
-#if __MAC_OS_X_VERSION_MIN_REQUIRED > MAC_OS_X_VERSION_10_7
+#if __MAC_OS_X_VERSION_MIN_REQUIRED > MAC_OS_X_VERSION_10_7 /*deplyment target needs to be 10.8 or bigger for this to work!*/
     float               getAmplitude(int channel = 0);
     float               getAmplitudeAt(float pos, int channel = 0);
     float *             getAllAmplitudes();
