@@ -1,6 +1,6 @@
 
 #include "FFTOctaveAnalyzer.h"	
-
+#include "math.h"
 
 void FFTOctaveAnalyzer::setup(float samplingRate, int nBandsInTheFFT, int nAveragesPerOctave){
 

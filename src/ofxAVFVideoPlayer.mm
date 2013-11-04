@@ -111,7 +111,7 @@ void ofxAVFVideoPlayer::play() {
 	if(bInitialized){
 		//cout << "initialized and playing at time " << getPositionInSeconds() << endl;
 		[moviePlayer play];
-		bPaused == false;
+		bPaused = false;
 	}
 	else{
 		bShouldPlay = true;
@@ -194,7 +194,7 @@ ofTexture& ofxAVFVideoPlayer::getTextureReference() {
 float ofxAVFVideoPlayer::getPosition() {
     // Return a fraction between 0 and 1 representing the position of the playhead
 	float pos = CMTimeGetSeconds([[moviePlayer player] currentTime]) / CMTimeGetSeconds([moviePlayer getVideoDuration]);
-	cout << "############### pos: " << pos << endl;
+	//cout << "############### pos: " << pos << endl;
 	//if(isnan(pos)) pos = -1.0;
     return pos;
 }
@@ -305,7 +305,7 @@ float ofxAVFVideoPlayer::getHeight() {
 
 bool ofxAVFVideoPlayer::isPaused() {
    // return [moviePlayer player].rate == 0;
-	cout << "############### isPaised: " << bPaused << endl;
+	//cout << "############### isPaised: " << bPaused << endl;
 	return bPaused;// = true;
 }
 
@@ -334,9 +334,9 @@ bool ofxAVFVideoPlayer::isAudioLoaded() {
 
 bool ofxAVFVideoPlayer::isPlaying() {
 	float r = [moviePlayer player].rate;
-	cout << "############### rate: " << r << endl;
-	bool isp = (fabs(r) > 0.1) ;
-	cout << "############### isP: " << isp << endl;
+	//cout << "############### rate: " << r << endl;
+	bool isp = (fabs(r) > 0.01) ;
+	//cout << "############### isP: " << isp << endl;
     return isp;
 }
 

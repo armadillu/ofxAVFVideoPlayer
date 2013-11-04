@@ -282,7 +282,7 @@ int count = 0;
     
     glPopAttrib();
     
-    glFinish(); //Rendering needs to be done before passing texture to video frame
+   // glFinish(); //Rendering needs to be done before passing texture to video frame
 }
 
 @end
