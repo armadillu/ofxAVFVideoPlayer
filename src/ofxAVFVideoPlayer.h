@@ -85,6 +85,7 @@ public:
     bool                isPaused();
     bool                isLoaded();
     bool                isLoading();
+	bool				isReady();
     bool                isPlaying();
     bool                errorLoading();
     bool                isAudioLoaded();    

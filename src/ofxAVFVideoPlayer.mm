@@ -93,11 +93,9 @@ void ofxAVFVideoPlayer::update() {
 				play();
 				bShouldPlay = false;
 			}
-
         }
         
         // Render movie into FBO so we can get a texture
-
         fbo.begin();
         [moviePlayer render];
         fbo.end();
@@ -113,6 +111,7 @@ void ofxAVFVideoPlayer::play() {
 	if(bInitialized){
 		//cout << "initialized and playing at time " << getPositionInSeconds() << endl;
 		[moviePlayer play];
+		bPaused == false;
 	}
 	else{
 		bShouldPlay = true;
@@ -120,6 +119,7 @@ void ofxAVFVideoPlayer::play() {
 }
 
 void ofxAVFVideoPlayer::stop() {
+	bPaused = true;
     [moviePlayer stop];
 }
 
@@ -193,7 +193,10 @@ ofTexture& ofxAVFVideoPlayer::getTextureReference() {
 
 float ofxAVFVideoPlayer::getPosition() {
     // Return a fraction between 0 and 1 representing the position of the playhead
-    return CMTimeGetSeconds([[moviePlayer player] currentTime]) / CMTimeGetSeconds([moviePlayer getVideoDuration]);
+	float pos = CMTimeGetSeconds([[moviePlayer player] currentTime]) / CMTimeGetSeconds([moviePlayer getVideoDuration]);
+	cout << "############### pos: " << pos << endl;
+	//if(isnan(pos)) pos = -1.0;
+    return pos;
 }
 
 float ofxAVFVideoPlayer::getPositionInSeconds() {
@@ -201,8 +204,8 @@ float ofxAVFVideoPlayer::getPositionInSeconds() {
 }
 
 float ofxAVFVideoPlayer::getSpeed() {
-	speed = [moviePlayer player].rate;
-    return speed;;
+	//speed = [moviePlayer player].rate;
+    return speed;
 }
 
 ofLoopType ofxAVFVideoPlayer::getLoopState() {
@@ -210,28 +213,31 @@ ofLoopType ofxAVFVideoPlayer::getLoopState() {
 }
 
 float ofxAVFVideoPlayer::getDuration() {
-    return CMTimeGetSeconds([moviePlayer getVideoDuration]);
+	float d = CMTimeGetSeconds([moviePlayer getVideoDuration]);
+	//if(isnan(d)) d = -1;
+	//cout << "############### d: " << d << endl;
+    return d;
 }
 
 bool ofxAVFVideoPlayer::getIsMovieDone() {
-    
+    return getPosition() >= 1.0f;
 }
 
 int ofxAVFVideoPlayer::getTotalNumFrames() {
-    
+	return 0; //TODO
 }
 
 int ofxAVFVideoPlayer::getCurrentFrame() {
-    
+    return 0; //TODO
 }
 
-void ofxAVFVideoPlayer::setPaused(bool bPaused) {
+void ofxAVFVideoPlayer::setPaused(bool bPaused_) {
+	bPaused = bPaused_;
 	if(bPaused){
 		[moviePlayer player].rate = 0;
 	}else{
 		[moviePlayer player].rate = speed;
 	}
-
 }
 
 void ofxAVFVideoPlayer::setPositionInSeconds(float position) {
@@ -261,10 +267,10 @@ void ofxAVFVideoPlayer::setLoopState(ofLoopType state) {
 }
 
 void ofxAVFVideoPlayer::setSpeed(float speed_) {
-
 	speed = speed_;
-	[moviePlayer player].rate = speed_;
-	cout << [moviePlayer player].rate << endl;
+	if(!bPaused){
+		[moviePlayer player].rate = speed_;
+	}
 }
 
 void ofxAVFVideoPlayer::setFrame(int frame) {
@@ -298,7 +304,9 @@ float ofxAVFVideoPlayer::getHeight() {
 }
 
 bool ofxAVFVideoPlayer::isPaused() {
-    return [moviePlayer player].rate == 0;
+   // return [moviePlayer player].rate == 0;
+	cout << "############### isPaised: " << bPaused << endl;
+	return bPaused;// = true;
 }
 
 bool ofxAVFVideoPlayer::isLoading() {
@@ -307,6 +315,10 @@ bool ofxAVFVideoPlayer::isLoading() {
 
 bool ofxAVFVideoPlayer::isLoaded() {
     return bInitialized;
+}
+
+bool ofxAVFVideoPlayer::isReady(){
+	return [moviePlayer isReady];
 }
 
 bool ofxAVFVideoPlayer::errorLoading() {
@@ -321,7 +333,11 @@ bool ofxAVFVideoPlayer::isAudioLoaded() {
 }
 
 bool ofxAVFVideoPlayer::isPlaying() {
-    
+	float r = [moviePlayer player].rate;
+	cout << "############### rate: " << r << endl;
+	bool isp = (fabs(r) > 0.1) ;
+	cout << "############### isP: " << isp << endl;
+    return isp;
 }
 
 void ofxAVFVideoPlayer::firstFrame() {
