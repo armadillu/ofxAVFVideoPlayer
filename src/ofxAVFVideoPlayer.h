@@ -30,12 +30,13 @@ public:
     void                update();
     void                play();
     void                stop();
-    
+#if __MAC_OS_X_VERSION_MIN_REQUIRED > MAC_OS_X_VERSION_10_7
     float               getAmplitude(int channel = 0);
     float               getAmplitudeAt(float pos, int channel = 0);
     float *             getAllAmplitudes();
     int                 getNumAmplitudes();
-    
+#endif
+	
     OF_DEPRECATED_MSG("Use getTexture()->bind() instead. Ensure decodeMode != OF_QTKIT_DECODE_PIXELS_ONLY.", void bind());
     OF_DEPRECATED_MSG("Use getTexture()->unbind() instead. Ensure decodeMode != OF_QTKIT_DECODE_PIXELS_ONLY.", void unbind());
     
@@ -62,13 +63,13 @@ public:
     int                 getTotalNumFrames();
     int                 getCurrentFrame();
     
-    void                setPaused(bool bPaused);
+    void                setPaused(bool _bPaused);
     void                setPosition(float pct);
 	void                setPositionInSeconds(float seconds);
     void                setVolume(float volume);
     void                setBalance(float balance);
     void                setLoopState(ofLoopType state);
-    void                setSpeed(float speed);
+    void                setSpeed(float _speed);
     void                setFrame(int frame); // frame 0 = first frame...
     
     // ofQTKitPlayer only supports OF_PIXELS_RGB and OF_PIXELS_RGBA.

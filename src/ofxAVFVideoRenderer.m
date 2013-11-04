@@ -10,7 +10,10 @@
 
 @implementation AVFVideoRenderer
 @synthesize player, playerItem, playerLayer, assetReader, layerRenderer;
+
+#if __MAC_OS_X_VERSION_MIN_REQUIRED > MAC_OS_X_VERSION_10_7
 @synthesize amplitudes, numAmplitudes;
+#endif
 
 int count = 0;
 
@@ -79,7 +82,8 @@ int count = 0;
                 // Video is centered on 0,0 for some reason so layer bounds have to start at -width/2,-height/2
                 self.layerRenderer.bounds = CGRectMake(-videoSize.width/2, -videoSize.height/2, videoSize.width, videoSize.height);
                 self.playerLayer.bounds = self.layerRenderer.bounds;
-                
+
+#if __MAC_OS_X_VERSION_MIN_REQUIRED > MAC_OS_X_VERSION_10_7
                 NSArray *audioTracks = [asset tracksWithMediaType:AVMediaTypeAudio];
                 if ([audioTracks count] > 0) {
                     AVAssetTrack *audioTrack = [[asset tracksWithMediaType:AVMediaTypeAudio] objectAtIndex:0];
@@ -166,7 +170,7 @@ int count = 0;
                                                                                }];
                     }
                 }
-                
+#endif
                 ready = YES;
                 loading = NO;
             }
